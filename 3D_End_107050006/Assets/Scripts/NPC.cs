@@ -19,12 +19,23 @@ public class NPC : MonoBehaviour
     /// 玩家是否進入感應區
     /// </summary>
     public bool playerInArea;
+
+    /// <summary>
+    /// 定義列舉(下拉是選單)
+    /// </summary>
+    public enum NPCState
+    {
+        FirstDialogue,Counitune,Missioning,Finish
+    }
+    public NPCState state = NPCState.FirstDialogue;
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "艾爾")
         {
             playerInArea = true;
-            StartCoroutine(Dialogue());
+            StartCoroutine(Dialogue());                 //啟用協程
         }
     }
     private void OnTriggerExit(Collider other)
@@ -32,6 +43,7 @@ public class NPC : MonoBehaviour
         if (other.name == "艾爾")
         {
             playerInArea = false;
+            StopDialogue();
         }
     }
     /// <summary>
@@ -39,8 +51,8 @@ public class NPC : MonoBehaviour
     /// </summary>
     private void StopDialogue() 
     {
-        dialogue.SetActive(false);
-        StopAllCoroutines();
+        dialogue.SetActive(false);                  //關閉對話框
+        StopAllCoroutines();                        //關閉所有協程
     }
   
     /// <summary>
@@ -56,10 +68,27 @@ public class NPC : MonoBehaviour
         textContent.text = "";                              //清空對話框文字
         textName.text = name;
 
-
-        for (int i = 0; i < data.dialogueA.Length; i++)     //字串長度       //for迴圈：重複處理相同程式
+        string dialogueString = data.dialogueA;             //要說的對話
+        switch (state)
         {
-            textContent.text += data.dialogueA[i] + "";     //將文字串聯
+            case NPCState.FirstDialogue:
+                dialogueString = data.dialogueA;
+                break; 
+            case NPCState.Counitune:
+                dialogueString = data.dialogueB;
+                break;
+            case NPCState.Missioning:
+                dialogueString = data.dialogueC;
+                break;
+            case NPCState.Finish:
+                dialogueString = data.dialogueD;
+                break;
+          
+        }
+
+        for (int i = 0; i < dialogueString.Length; i++)     //字串長度       //for迴圈：重複處理相同程式
+        {
+            textContent.text += dialogueString[i] + "";     //將文字串聯
             yield return new WaitForSeconds(interval);
         }
     }
