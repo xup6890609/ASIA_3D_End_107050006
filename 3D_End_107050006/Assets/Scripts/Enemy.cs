@@ -12,7 +12,9 @@ public class Enemy : MonoBehaviour
     [Header("攻擊中心點")]
     public Transform atkPoint;
     [Header("攻擊長度"), Range(0f, 5f)]
-    public float atkLength;
+    public float atkLength; 
+    [Header("攻擊力度"), Range(0, 500)]
+    public float atk = 30;
 
     private Transform player;
     private NavMeshAgent nav;
@@ -81,7 +83,7 @@ public class Enemy : MonoBehaviour
 
                 if (Physics.Raycast(atkPoint.position, atkPoint.forward, out hit, atkLength, 1 << 8))        // 物理.射線碰撞(攻擊中心點前方，射線擊中的物件，攻擊長度，圖層)  // 圖層:1<< 圖層編號
                 {
-                    hit.collider.GetComponent<Player>().Damage(); //碰撞物件.取得元件<玩家>().受傷()
+                    hit.collider.GetComponent<Player>().Damage(atk); //碰撞物件.取得元件<玩家>().受傷()
                 }
             }
         }
