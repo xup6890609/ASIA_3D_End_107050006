@@ -9,8 +9,11 @@ public class Player : MonoBehaviour
     /// 連擊次數
     /// </summary>
     private int atkCount;
-    
+    /// <summary>
+    /// 計時器
+    /// </summary>
     private float timer;
+
     [Header("連擊間隔時間"), Range(0, 3)]
     public float interval = 1;
     [Header("攻擊中心點")]
@@ -39,6 +42,11 @@ public class Player : MonoBehaviour
         Gizmos.DrawRay(atkPoint.position, atkPoint.forward * atkLength);        // 圖示.繪製設限(中心點,方向)
     }
 
+    /// <summary>
+    /// 連擊
+    /// </summary>
+    private RaycastHit hit;     //射線擊中的物件
+
     private void Attack()
 
     {
@@ -48,11 +56,15 @@ public class Player : MonoBehaviour
             {
                 timer += Time.deltaTime;
 
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (Input.GetKeyDown(KeyCode.Mouse0))           //按下滑鼠左鍵，切換成連擊二段
                 {
                     atkCount++;
                     timer = 0;
                     ani.SetInteger("連擊", atkCount);
+                }
+                if (Physics.Raycast(atkPoint.position, atkPoint.forward, out hit, atkLength, 1 << 9))        // 物理.射線碰撞(攻擊中心點前方，射線擊中的物件，攻擊長度，圖層)  // 圖層:1<< 圖層編號
+                {
+                    hit.collider.GetComponent<Enemy>().Damage(atk);       //碰撞物件.取得元件<玩家>().受傷()
                 }
             }
             else
@@ -60,21 +72,14 @@ public class Player : MonoBehaviour
                 atkCount = 0;
                 timer = 0;
 
-                if (Physics.Raycast(atkPoint.position, atkPoint.forward, out hit, atkLength, 1 << 9))        // 物理.射線碰撞(攻擊中心點前方，射線擊中的物件，攻擊長度，圖層)  // 圖層:1<< 圖層編號
-                {
-                    hit.collider.GetComponent<Enemy>().Damage(atk); //碰撞物件.取得元件<玩家>().受傷()
-                }
+               
             }
         }
-        if (atkCount == 3) atkCount = 0;
+        if (atkCount == 3) atkCount = 0;            //次數超過回復連擊動畫
 
         ani.SetInteger("連擊", atkCount);
         
     }
-    /// <summary>
-    /// 射線擊中的物件
-    /// </summary>
-    private RaycastHit hit;
 
     /// <summary>
     /// 受傷

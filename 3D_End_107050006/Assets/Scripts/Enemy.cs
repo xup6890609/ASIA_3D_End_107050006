@@ -4,6 +4,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     private float hp = 100;
+
     [Header("移動速度"), Range(0, 50)]
     public float speed = 4;
     [Header("停止距離"), Range(0, 50)]
@@ -66,20 +67,6 @@ public class Enemy : MonoBehaviour
     private RaycastHit hit;
 
     /// <summary>
-    /// 受傷
-    /// </summary>
-    /// <param name="damage"></param>  //接收傷害值
-    public void Damage(float damage)
-    {
-        hp -= damage;
-        ani.SetTrigger("受傷觸發");
-        if (hp <= 0)
-        {
-            Dead();
-        }
-    }
-
-    /// <summary>
     /// 攻擊
     /// </summary>
     private void Attack()
@@ -104,13 +91,28 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 受傷
+    /// </summary>
+    /// <param name="damage"></param>  //接收傷害值
+    public void Damage(float damage)
+    {
+        hp -= damage;
+        ani.SetTrigger("受傷觸發");
+        if (hp <= 0)
+        {
+            Dead();
+        }
+    }
+
     /// <summary>
     /// 死亡
     /// </summary>
-    public void Dead()
+    private void Dead()
     {
-        nav.isStopped = true;
-        enabled = false;
-        ani.SetBool("死亡開關",true);
+        nav.isStopped = true;               //關閉導覽器
+        enabled = false;                    //關閉腳本
+        ani.SetBool("死亡開關",true);       //死亡動畫執行
     }
 }

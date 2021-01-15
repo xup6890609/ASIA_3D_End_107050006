@@ -481,7 +481,7 @@ MonoBehaviour:
   interval: 1
   atkPoint: {fileID: 1381071626}
   atkLength: 0.81
-  atk: 50
+  atk: 30
 --- !u!1 &357526865
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,6 +790,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 41efc1acc0e5d504f9d1471a415f42e3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41efc1acc0e5d504f9d1471a415f42e3, type: 3}
 --- !u!1001 &631795450
@@ -1024,7 +1029,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 1.4551e-41, z: 0, w: 6.65625}
+  m_BoundingSphereOverride: {x: 0, y: 1.3385e-41, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -1510,7 +1515,21 @@ MonoBehaviour:
   CD: 2
   atkPoint: {fileID: 561333995}
   atkLength: 1
-  atk: 30
+  atk: 10
+--- !u!136 &992040420
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992040415}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.17
+  m_Height: 1.61
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.82, z: 0}
 --- !u!1 &1070501907
 GameObject:
   m_ObjectHideFlags: 0
