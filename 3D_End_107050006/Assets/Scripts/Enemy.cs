@@ -22,10 +22,32 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent nav;
     private Animator ani;
 
+    public bool playerIn;
+
     /// <summary>
     /// 計時器
     /// </summary>
     private float timer;
+
+    /// <summary>
+    /// 偵測玩家進入才追上攻擊
+    /// </summary>
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "艾爾")
+        {
+            playerIn = true;
+
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.name == "艾爾")
+        {
+            playerIn = false;
+        }
+    }
 
     private void Awake()
     {
@@ -57,8 +79,16 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void Track()
     {
-        nav.SetDestination(player.position);                                    // 代理器.設定目的地(玩家座標)
-        ani.SetBool("跑步開關", nav.remainingDistance > stopDistance);          // 動畫控制器.設定布林值("參數名稱",剩餘距離 >停止距離)
+        if (playerIn)
+        {
+            nav.isStopped = false;
+            nav.SetDestination(player.position);                                    // 代理器.設定目的地(玩家座標)
+            ani.SetBool("跑步開關", nav.remainingDistance > stopDistance);          // 動畫控制器.設定布林值("參數名稱",剩餘距離 >停止距離)
+        }
+        else
+        {
+            nav.isStopped = true;
+        }
     }
 
     /// <summary>
